@@ -569,7 +569,7 @@ class ScrollPane extends EventDispatcher
             refresh();
 
         var rect:Rectangle;
-        if (Std.is(target, GObject))
+        if (Std.isOfType(target, GObject))
         {
             if (target.parent != _owner)
             {

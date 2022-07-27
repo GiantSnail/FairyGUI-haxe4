@@ -210,7 +210,7 @@ class GRoot extends GComponent
             var g:GObject = this.getChildAt(i);
             if (g == win)
                 return;
-            if (Std.is(g, Window))
+            if (Std.isOfType(g, Window))
                 break;
             i--;
         }
@@ -246,7 +246,7 @@ class GRoot extends GComponent
         for (i in 0...cnt)
         {
             var g:GObject = arr[i];
-            if (Std.is(g, Window) && !(try cast(g, Window)
+            if (Std.isOfType(g, Window) && !(try cast(g, Window)
             catch (e:Dynamic) null).modal)
                 cast(g, Window).hide();
         }
@@ -259,7 +259,7 @@ class GRoot extends GComponent
         for (i in 0...cnt)
         {
             var g:GObject = arr[i];
-            if (Std.is(g, Window))
+            if (Std.isOfType(g, Window))
                 cast(g, Window).hide();
         }
     }
@@ -271,7 +271,7 @@ class GRoot extends GComponent
         while (i >= 0)
         {
             var g:GObject = this.getChildAt(i);
-            if (Std.is(g, Window))
+            if (Std.isOfType(g, Window))
             {
                 return cast((g), Window);
             }
@@ -289,7 +289,7 @@ class GRoot extends GComponent
         while (i >= 0)
         {
             var g:GObject = this.getChildAt(i);
-            if (Std.is(g, Window))
+            if (Std.isOfType(g, Window))
             {
                 if (ok)
                     return cast(g, Window);
@@ -422,7 +422,7 @@ class GRoot extends GComponent
     {
         if (target.parent != null)
         {
-            if (Std.is(target, Window))
+            if (Std.isOfType(target, Window))
                 cast(target, Window).hide();
             else
                 removeChild(target);
@@ -528,7 +528,7 @@ class GRoot extends GComponent
             return null;
 
         setFocus(value);
-        if (Std.is(value, GTextInput))
+        if (Std.isOfType(value, GTextInput))
             _nativeStage.focus = cast(cast(value, GTextInput).displayObject, TextField);
         return value;
     }
@@ -576,7 +576,7 @@ class GRoot extends GComponent
         while (i >= 0)
         {
             var g:GObject = this.getChildAt(i);
-            if ((Std.is(g, Window)) && cast(g, Window).modal)
+            if ((Std.isOfType(g, Window)) && cast(g, Window).modal)
             {
                 if (_modalLayer.parent == null)
                     addChildAt(_modalLayer, i);
@@ -634,12 +634,12 @@ class GRoot extends GComponent
         ctrlKeyDown = evt.ctrlKey;
         shiftKeyDown = evt.shiftKey;
         buttonDown = true;
-        _hitUI = !Std.is(evt.target, _nativeStage);
+        _hitUI = !Std.isOfType(evt.target, _nativeStage);
 
         var mc:DisplayObject = try cast(evt.target, DisplayObject)catch (e:Dynamic) null;
         while (mc != _nativeStage && mc != null)
         {
-            if (Std.is(mc, UIDisplayObject))
+            if (Std.isOfType(mc, UIDisplayObject))
             {
                 var gg:GObject = cast(mc, UIDisplayObject).owner;
                 if (gg.touchable && gg.focusable)
@@ -664,7 +664,7 @@ class GRoot extends GComponent
             var handled:Bool = false;
             while (mc != _nativeStage && mc != null)
             {
-                if (Std.is(mc, UIDisplayObject))
+                if (Std.isOfType(mc, UIDisplayObject))
                 {
                     var pindex:Int = Lambda.indexOf(_popupStack, cast(mc, UIDisplayObject).owner);
                     if (pindex != -1)
@@ -729,7 +729,7 @@ class GRoot extends GComponent
             var i:Int;
             while (mc != _nativeStage && mc != null)
             {
-                if (Std.is(mc, UIDisplayObject))
+                if (Std.isOfType(mc, UIDisplayObject))
                 {
                     var pindex:Int = _popupStack.indexOf(cast(mc, UIDisplayObject).owner);
                     if (pindex != -1)

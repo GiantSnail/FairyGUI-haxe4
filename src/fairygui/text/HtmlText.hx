@@ -58,19 +58,19 @@ class HtmlText
             if (tag == "font")
             {
                 tf = new TextFormat();
-                attr = node.nodes.resolve("size");
+                attr = node.NodeListAccess("size");
                 if (attr.length() > 0)
                     tf.size = Std.parseInt(attr.get(0).value);
-                attr = node.nodes.resolve("color");
+                attr = node.NodeListAccess("color");
                 if (attr.length() > 0)
                     tf.color = Std.parseInt("0x"+attr.get(0).value.substr(1));
-                attr = node.nodes.resolve("italic");
+                attr = node.NodeListAccess("italic");
                 if (attr.length() > 0)
                     tf.italic = attr.get(0).value == "true";
-                attr = node.nodes.resolve("underline");
+                attr = node.NodeListAccess("underline");
                 if (attr.length() > 0)
                     tf.underline = attr.get(0).value == "true";
-                attr = node.nodes.resolve("face");
+                attr = node.NodeListAccess("face");
                 if (attr.length() > 0)
                     tf.font = attr.get(0).value;
                 
@@ -108,9 +108,9 @@ class HtmlText
                     element.start = start;
                     element.end = parsedText.length - 1;
                     element.textformat = tf;
-                    element.id = Std.string(node.att.id);
-                    element.href = Std.string(node.att.href);
-                    element.target = Std.string(node.att.target);
+                    element.id = Std.string(node.AttrAccess("id"));
+                    element.href = Std.string(node.AttrAccess("href"));
+                    element.target = Std.string(node.AttrAccess("target"));
                     elements.push(element);
                 }
             }
@@ -122,10 +122,10 @@ class HtmlText
                 
                 element = new HtmlElement();
                 element.type = 2;
-                element.id = Std.string(node.att.id);
-                element.src = Std.string(node.att.src);
-                element.width = Std.parseInt(Std.string(node.att.width));
-                element.height = Std.parseInt(Std.string(node.att.height));
+                element.id = Std.string(node.AttrAccess("id"));
+                element.src = Std.string(node.AttrAccess("src"));
+                element.width = Std.parseInt(Std.string(node.AttrAccess("width")));
+                element.height = Std.parseInt(Std.string(node.AttrAccess("height")));
                 element.start = start;
                 element.end = parsedText.length - 1;
                 element.textformat = tf;

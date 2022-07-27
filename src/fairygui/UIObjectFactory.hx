@@ -56,7 +56,7 @@ class UIObjectFactory
                     return Type.createInstance(cls, []);
                 
                 var xml : FastXML = pi.owner.getComponentData(pi);
-                var extention : String = xml.att.extention;
+                var extention : String = xml.AttrAccess("extention");
                 if (extention != null) 
                 {
                     switch (extention)

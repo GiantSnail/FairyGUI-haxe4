@@ -288,12 +288,12 @@ class GObject extends EventDispatcher
             _y = yv;
 
             handlePositionChanged();
-            if (Std.is(this, GGroup))
+            if (Std.isOfType(this, GGroup))
                 cast(this, GGroup).moveChildren(dx, dy);
 
             updateGear(1);
 
-            if (parent != null && !Std.is(parent, GList))
+            if (parent != null && !Std.isOfType(parent, GList))
             {
                 _parent.setBoundsChangedFlag();
                 if (_group != null)
@@ -406,7 +406,7 @@ class GObject extends EventDispatcher
                 }
             }
 
-            if (Std.is(this, GGroup))
+            if (Std.isOfType(this, GGroup))
                 cast(this, GGroup).resizeChildren(dWidth, dHeight);
 
             updateGear(2);
@@ -570,19 +570,19 @@ class GObject extends EventDispatcher
             updateGear(3);
 
             //Touch is not supported by GImage/GMovieClip/GTextField
-            if (Std.is(this, GImage) || Std.is(this, GMovieClip) || Std.is(this, GTextField) && !Std.is(this, GTextInput) && !Std.is(this, GRichTextField))
+            if (Std.isOfType(this, GImage) || Std.isOfType(this, GMovieClip) || Std.isOfType(this, GTextField) && !Std.isOfType(this, GTextInput) && !Std.isOfType(this, GRichTextField))
                 return false;
 
-            if (Std.is(_displayObject, InteractiveObject))
+            if (Std.isOfType(_displayObject, InteractiveObject))
             {
-                if (Std.is(this, GComponent))
+                if (Std.isOfType(this, GComponent))
                 {
                     cast(this, GComponent).handleTouchable(_touchable);
                 }
                 else
                 {
                     cast(_displayObject, InteractiveObject).mouseEnabled = _touchable;
-                    if (Std.is(_displayObject, DisplayObjectContainer))
+                    if (Std.isOfType(_displayObject, DisplayObjectContainer))
                         cast(_displayObject, DisplayObjectContainer).mouseChildren = _touchable;
                 }
             }
@@ -992,13 +992,13 @@ class GObject extends EventDispatcher
 
     private function get_root():GRoot
     {
-        if (Std.is(this, GRoot))
+        if (Std.isOfType(this, GRoot))
             return cast(this, GRoot);
 
         var p:GObject = _parent;
         while (p != null)
         {
-            if (Std.is(p, GRoot))
+            if (Std.isOfType(p, GRoot))
                 return cast(p, GRoot);
             p = p.parent;
         }
@@ -1178,7 +1178,7 @@ class GObject extends EventDispatcher
                 initMTouch();
             else
             {
-                if (type == MouseEvent.RIGHT_CLICK && Std.is(this, GComponent))
+                if (type == MouseEvent.RIGHT_CLICK && Std.isOfType(this, GComponent))
                     cast(this, GComponent).opaque = true;
 
                 _displayObject.addEventListener(type, _reDispatch, useCapture, priority, useWeakReference);
@@ -1201,7 +1201,7 @@ class GObject extends EventDispatcher
     {
         var nevt:Event = evt.clone();
         this.dispatchEvent(nevt);
-        if (evt.bubbles && Std.is(nevt, IBubbleEvent) && cast(nevt, IBubbleEvent).propagationStopped)
+        if (evt.bubbles && Std.isOfType(nevt, IBubbleEvent) && cast(nevt, IBubbleEvent).propagationStopped)
             evt.stopPropagation();
     }
 
@@ -1360,10 +1360,10 @@ class GObject extends EventDispatcher
         _displayObject.scaleY = old.scaleY;
         _displayObject.filters = old.filters;
         old.filters = null;
-        if (Std.is(_displayObject, InteractiveObject) && Std.is(old, InteractiveObject))
+        if (Std.isOfType(_displayObject, InteractiveObject) && Std.isOfType(old, InteractiveObject))
         {
             cast(_displayObject, InteractiveObject).mouseEnabled = cast(old, InteractiveObject).mouseEnabled;
-            if (Std.is(_displayObject, DisplayObjectContainer))
+            if (Std.isOfType(_displayObject, DisplayObjectContainer))
                 cast(_displayObject, DisplayObjectContainer).mouseChildren = cast(old, DisplayObjectContainer).mouseChildren;
         }
     }
@@ -1464,14 +1464,14 @@ class GObject extends EventDispatcher
         var str:String;
         var arr:Array<String>;
 
-        _id = xml.att.id;
-        _name = xml.att.name;
+        _id = xml.AttrAccess("id");
+        _name = xml.AttrAccess("name");
 
-        str = xml.att.xy;
+        str = xml.AttrAccess("xy");
         arr = str.split(",");
         this.setXY(Std.parseInt(arr[0]), Std.parseInt(arr[1]));
 
-        str = xml.att.size;
+        str = xml.AttrAccess("size");
         if (str != null)
         {
             arr = str.split(",");
@@ -1480,7 +1480,7 @@ class GObject extends EventDispatcher
             setSize(initWidth, initHeight, true);
         }
 
-        str = xml.att.restrictSize;
+        str = xml.AttrAccess("restrictSize");
         if (str != null)
         {
             arr = str.split(",");
@@ -1490,48 +1490,48 @@ class GObject extends EventDispatcher
             maxHeight = Std.parseInt(arr[3]);
         }
 
-        str = xml.att.scale;
+        str = xml.AttrAccess("scale");
         if (str != null)
         {
             arr = str.split(",");
             setScale(Std.parseFloat(arr[0]), Std.parseFloat(arr[1]));
         }
 
-        str = xml.att.rotation;
+        str = xml.AttrAccess("rotation");
         if (str != null)
             this.rotation = Std.parseInt(str);
 
-        str = xml.att.alpha;
+        str = xml.AttrAccess("alpha");
         if (str != null)
             this.alpha = Std.parseFloat(str);
 
-        str = xml.att.pivot;
+        str = xml.AttrAccess("pivot");
         if (str != null)
         {
             arr = str.split(",");
-            str = xml.att.anchor;
+            str = xml.AttrAccess("anchor");
             this.setPivot(Std.parseFloat(arr[0]), Std.parseFloat(arr[1]), str == "true");
         }
 
-        if (xml.att.touchable == "false")
+        if (xml.AttrAccess("touchable") == "false")
             this.touchable = false;
-        if (xml.att.visible == "false")
+        if (xml.AttrAccess("visible") == "false")
             this.visible = false;
-        if (xml.att.grayed == "true")
+        if (xml.AttrAccess("grayed") == "true")
             this.grayed = true;
-        this.tooltips = xml.att.tooltips;
+        this.tooltips = xml.AttrAccess("tooltips");
 
-        str = xml.att.blend;
+        str = xml.AttrAccess("blend");
         if (str != null)
             this.blendMode = str;
 
-        str = xml.att.filter;
+        str = xml.AttrAccess("filter");
         if (str != null)
         {
             switch (str)
             {
                 case "color":
-                    str = xml.att.filterData;
+                    str = xml.AttrAccess("filterData");
                     arr = str.split(",");
                     var cm:ColorMatrix = new ColorMatrix();
                     cm.adjustBrightness(Std.parseFloat(arr[0]));
@@ -1543,7 +1543,7 @@ class GObject extends EventDispatcher
             }
         }
 
-        str = xml.att.customData;
+        str = xml.AttrAccess("customData");
         if (str != null)
         this.data = str;
     }
@@ -1561,7 +1561,7 @@ class GObject extends EventDispatcher
 
     public function setup_afterAdd(xml:FastXML):Void
     {
-        var s:String = xml.att.group;
+        var s:String = xml.AttrAccess("group");
         if (s != null)
             _group = try cast(_parent.getChildById(s), GGroup)
             catch (e:Dynamic) null;
@@ -1613,7 +1613,7 @@ class GObject extends EventDispatcher
 
     private function initMTouch():Void
     {
-        if (Std.is(this, GComponent))
+        if (Std.isOfType(this, GComponent))
         {
             /*GComponent is by default not opaque for optimization.
             if a click listener registered, we set opaque to true
@@ -1750,7 +1750,7 @@ class GObject extends EventDispatcher
         {
             var child:GObject = cast(this, GComponent).getChildAt(i);
             child._buttonStatus = 0;
-            if (Std.is(child, GComponent))
+            if (Std.isOfType(child, GComponent))
                 child.cancelClick();
         }
     }
@@ -1811,7 +1811,7 @@ class GObject extends EventDispatcher
 
     private function __begin(evt:GTouchEvent):Void
     {
-        if (Std.is(evt.realTarget, TextField) && cast(evt.realTarget, TextField).type == TextFieldType.INPUT)
+        if (Std.isOfType(evt.realTarget, TextField) && cast(evt.realTarget, TextField).type == TextFieldType.INPUT)
             return;
 
         addEventListener(GTouchEvent.DRAG, p__dragStart);
@@ -1821,7 +1821,7 @@ class GObject extends EventDispatcher
     {
         removeEventListener(GTouchEvent.DRAG, p__dragStart);
 
-        if (Std.is(evt.realTarget, TextField) && cast(evt.realTarget, TextField).type == TextFieldType.INPUT)
+        if (Std.isOfType(evt.realTarget, TextField) && cast(evt.realTarget, TextField).type == TextFieldType.INPUT)
             return;
 
         var dragEvent:DragEvent = new DragEvent(DragEvent.DRAG_START);

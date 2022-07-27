@@ -341,11 +341,11 @@ class GButton extends GComponent
 
     public function getTextField():GTextField
     {
-        if (Std.is(_titleObject, GTextField))
+        if (Std.isOfType(_titleObject, GTextField))
             return cast(_titleObject, GTextField);
-        else if (Std.is(_titleObject, GLabel))
+        else if (Std.isOfType(_titleObject, GLabel))
             return cast(_titleObject, GLabel).getTextField();
-        else if (Std.is(_titleObject, GButton))
+        else if (Std.isOfType(_titleObject, GButton))
             return cast(_titleObject, GButton).getTextField();
         else
             return null;
@@ -367,7 +367,7 @@ class GButton extends GComponent
                 for (i in 0...cnt)
                 {
                     obj = this.getChildAt(i);
-                    if ((Std.is(obj, IColorGear)) && !(Std.is(obj, GTextField)))
+                    if ((Std.isOfType(obj, IColorGear)) && !(Std.isOfType(obj, GTextField)))
                         cast(obj, IColorGear).color = color;
                 }
             }
@@ -376,7 +376,7 @@ class GButton extends GComponent
                 for (i in 0...cnt)
                 {
                     obj = this.getChildAt(i);
-                    if ((Std.is(obj, IColorGear)) && !(Std.is(obj, GTextField)))
+                    if ((Std.isOfType(obj, IColorGear)) && !(Std.isOfType(obj, GTextField)))
                         cast(obj, IColorGear).color = 0xFFFFFF;
                 }
             }
@@ -455,26 +455,26 @@ class GButton extends GComponent
     {
         super.constructFromXML(xml);
 
-        xml = xml.nodes.Button.get(0);
+        xml = xml.NodeListAccess("Button").get(0);
 
         var str:String;
-        str = xml.att.mode;
+        str = xml.AttrAccess("model");
         if (str != null)
             _mode = ButtonMode.parse(str);
 
-        str = xml.att.sound;
+        str = xml.AttrAccess("sound");
         if (str != null)
             _sound = str;
 
-        str = xml.att.volume;
+        str = xml.AttrAccess("volume");
         if (str != null)
             _soundVolumeScale = Std.parseInt(str) / 100;
 
-        str = xml.att.downEffect;
+        str = xml.AttrAccess("downEffect");
         if (str != null)
         {
             _downEffect = (str == "dark") ? 1 : (str == "scale" ? 2 : 0);
-            str = xml.att.downEffectValue;
+            str = xml.AttrAccess("downEffectValue");
             _downEffectValue = Std.parseFloat(str);
 
             if (_downEffect == 2)
@@ -508,45 +508,45 @@ class GButton extends GComponent
     {
         super.setup_afterAdd(xml);
 
-        xml = xml.nodes.Button.get(0);
+        xml = xml.NodeListAccess("Button").get(0);
         if (xml != null)
         {
             var str:String;
-            str = xml.att.title;
+            str = xml.AttrAccess("title");
             if (str != null)
                 this.title = str;
-            str = xml.att.icon;
+            str = xml.AttrAccess("icon");
             if (str != null)
                 this.icon = str;
-            str = xml.att.selectedTitle;
+            str = xml.AttrAccess("selectedTitle");
             if (str != null)
                 this.selectedTitle = str;
-            str = xml.att.selectedIcon;
+            str = xml.AttrAccess("selectedIcon");
             if (str != null)
                 this.selectedIcon = str;
 
-            str = xml.att.titleColor;
+            str = xml.AttrAccess("titleColor");
             if (str != null)
                 this.titleColor = ToolSet.convertFromHtmlColor(str);
 
-            str = xml.att.titleFontSize;
+            str = xml.AttrAccess("titleFontSize");
             if (str != null)
                 this.titleFontSize = Std.parseInt(str);
 
-            str = xml.att.sound;
+            str = xml.AttrAccess("sound");
             if (str != null)
-                _sound = xml.att.sound;
-            str = xml.att.volume;
+                _sound = xml.AttrAccess("sound");
+            str = xml.AttrAccess("volume");
             if (str != null)
                 _soundVolumeScale = Std.parseInt(str) / 100;
 
-            str = xml.att.controller;
+            str = xml.AttrAccess("controller");
             if (str != null)
-                _relatedController = _parent.getController(xml.att.controller);
+                _relatedController = _parent.getController(xml.AttrAccess("controller"));
             else
                 _relatedController = null;
-            _pageOption.id = xml.att.page;
-            this.selected = xml.att.checked == "true";
+            _pageOption.id = xml.AttrAccess("page");
+            this.selected = xml.AttrAccess("checked") == "true";
         }
     }
 
@@ -592,7 +592,7 @@ class GButton extends GComponent
 
         if (_linkedPopup != null)
         {
-            if (Std.is(_linkedPopup, Window))
+            if (Std.isOfType(_linkedPopup, Window))
                 cast(_linkedPopup, Window).toggleStatus();
             else
                 this.root.togglePopup(_linkedPopup, this);

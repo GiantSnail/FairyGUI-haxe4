@@ -159,9 +159,9 @@ class GProgressBar extends GComponent
                 _barObjectV.y = _barStartY + (fullHeight - _barObjectV.height);
             }
         }
-        if (Std.is(_aniObject, GMovieClip)) 
+        if (Std.isOfType(_aniObject, GMovieClip)) 
             cast((_aniObject), GMovieClip).frame = Math.round(percent * 100)
-        else if (Std.is(_aniObject, GSwfObject)) 
+        else if (Std.isOfType(_aniObject, GSwfObject)) 
             cast((_aniObject), GSwfObject).frame = Math.round(percent * 100);
     }
     
@@ -169,14 +169,14 @@ class GProgressBar extends GComponent
     {
         super.constructFromXML(xml);
         
-        xml = xml.nodes.ProgressBar.get(0);
+        xml = xml.NodeListAccess("ProgressBar").get(0);
         
         var str : String;
-        str = xml.att.titleType;
+        str = xml.AttrAccess("titleType");
         if (str != null) 
             _titleType = ProgressTitleType.parse(str);
         
-        _reverse = xml.att.reverse == "true";
+        _reverse = xml.AttrAccess("reverse") == "true";
         
         _titleObject = try cast(getChild("title"), GTextField) catch(e:Dynamic) null;
         _barObjectH = getChild("bar");
@@ -213,13 +213,13 @@ class GProgressBar extends GComponent
     {
         super.setup_afterAdd(xml);
         
-        xml = xml.nodes.ProgressBar.get(0);
+        xml = xml.NodeListAccess("ProgressBar").get(0);
         if (xml != null) 
         {
-            _value = Std.parseInt(xml.att.value);
+            _value = Std.parseInt(xml.AttrAccess("value"));
             if (Math.isNaN(_value))
                 _value = 0;
-            _max = Std.parseInt(xml.att.max);
+            _max = Std.parseInt(xml.AttrAccess("max"));
             if (Math.isNaN(_max))
                 _max = 0;
         }

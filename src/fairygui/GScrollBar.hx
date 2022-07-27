@@ -78,9 +78,9 @@ class GScrollBar extends GComponent
     {
         super.constructFromXML(xml);
 
-        xml = xml.nodes.ScrollBar.get(0);
+        xml = xml.NodeListAccess("ScrollBar").get(0);
         if (xml != null)
-            _fixedGripSize = xml.att.fixedGripSize == "true";
+            _fixedGripSize = xml.AttrAccess("fixedGripSize") == "true";
 
         _grip = getChild("grip");
         if (_grip == null)

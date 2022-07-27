@@ -191,9 +191,9 @@ class GLoader extends GObject implements IColorGear implements IAnimationGear
         if (_playing != value)
         {
             _playing = value;
-            if (Std.is(_content, fairygui.display.MovieClip))
+            if (Std.isOfType(_content, fairygui.display.MovieClip))
                 cast(_content, fairygui.display.MovieClip).playing = value;
-            else if (Std.is(_content, openfl.display.MovieClip))
+            else if (Std.isOfType(_content, openfl.display.MovieClip))
                 cast(_content, openfl.display.MovieClip).stop();
             updateGear(5);
         }
@@ -210,9 +210,9 @@ class GLoader extends GObject implements IColorGear implements IAnimationGear
         if (_frame != value)
         {
             _frame = value;
-            if (Std.is(_content, fairygui.display.MovieClip))
+            if (Std.isOfType(_content, fairygui.display.MovieClip))
                 cast(_content, fairygui.display.MovieClip).currentFrame = value;
-            else if (Std.is(_content, openfl.display.MovieClip))
+            else if (Std.isOfType(_content, openfl.display.MovieClip))
             {
                 if (_playing)
                     cast(_content, openfl.display.MovieClip).gotoAndPlay(_frame + 1);
@@ -262,7 +262,7 @@ class GLoader extends GObject implements IColorGear implements IAnimationGear
 
     private function get_texture():BitmapData
     {
-        if (Std.is(_content, Bitmap))
+        if (Std.isOfType(_content, Bitmap))
             return cast(_content, Bitmap).bitmapData;
         else
             return null;
@@ -272,7 +272,7 @@ class GLoader extends GObject implements IColorGear implements IAnimationGear
     {
         this.url = null;
 
-        if (!Std.is(_content, Bitmap))
+        if (!Std.isOfType(_content, Bitmap))
         {
             _content = new Bitmap();
             _container.addChild(_content);
@@ -353,7 +353,7 @@ class GLoader extends GObject implements IColorGear implements IAnimationGear
         }
         else
         {
-            if (!(Std.is(_content, Bitmap)))
+            if (!(Std.isOfType(_content, Bitmap)))
             {
                 _content = new Bitmap();
                 _container.addChild(_content);
@@ -371,7 +371,7 @@ class GLoader extends GObject implements IColorGear implements IAnimationGear
     private function __movieClipLoaded(pi:PackageItem):Void
     {
         _loading = 0;
-        if (!(Std.is(_content, fairygui.display.MovieClip)))
+        if (!(Std.isOfType(_content, fairygui.display.MovieClip)))
         {
             _content = new fairygui.display.MovieClip();
             _container.addChild(_content);
@@ -410,7 +410,7 @@ class GLoader extends GObject implements IColorGear implements IAnimationGear
             }
         }
 
-        if (_content != null && (Std.is(_content, openfl.display.MovieClip)))
+        if (_content != null && (Std.isOfType(_content, openfl.display.MovieClip)))
         {
             if (_playing)
                 cast(_content, openfl.display.MovieClip).gotoAndPlay(_frame + 1);
@@ -679,31 +679,31 @@ class GLoader extends GObject implements IColorGear implements IAnimationGear
         super.setup_beforeAdd(xml);
 
         var str:String;
-        str = xml.att.url;
+        str = xml.AttrAccess("url");
         if (str != null)
             _url = str;
 
-        str = xml.att.align;
+        str = xml.AttrAccess("align");
         if (str != null)
             _align = AlignType.parse(str);
 
-        str = xml.att.vAlign;
+        str = xml.AttrAccess("vAlign");
         if (str != null)
             _verticalAlign = VertAlignType.parse(str);
 
-        str = xml.att.fill;
+        str = xml.AttrAccess("fill");
         if (str != null)
             _fill = LoaderFillType.parse(str);
 
-        _autoSize = xml.att.autoSize == "true";
+        _autoSize = xml.AttrAccess("autoSize") == "true";
 
-        str = xml.att.errorSign;
+        str = xml.AttrAccess("errorSign");
         if (str != null)
             _showErrorSign = str == "true";
 
-        _playing = xml.att.playing != "false";
+        _playing = xml.AttrAccess("playing") != "false";
 
-        str = xml.att.color;
+        str = xml.AttrAccess("color");
         if (str != null)
             this.color = ToolSet.convertFromHtmlColor(str);
 

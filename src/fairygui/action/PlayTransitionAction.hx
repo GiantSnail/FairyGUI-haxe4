@@ -42,19 +42,19 @@ class PlayTransitionAction extends ControllerAction
     {
         super.setup(xml);
 
-        transitionName = xml.att.transition;
+        transitionName = xml.AttrAccess("transition");
 
         var str:String;
 
-        str = xml.att.repeat;
+        str = xml.AttrAccess("repeat");
         if (str != null)
             repeat = Std.parseInt(str);
 
-        str = xml.att.delay;
+        str = xml.AttrAccess("delay");
         if (str != null)
             delay = Std.parseFloat(str);
 
-        str = xml.att.stopOnExit;
+        str = xml.AttrAccess("stopOnExit");
         stopOnExit = str == "true";
     }
 

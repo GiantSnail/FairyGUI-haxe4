@@ -130,12 +130,12 @@ class GMovieClip extends GObject implements IAnimationGear implements IColorGear
         super.setup_beforeAdd(xml);
 
         var str:String;
-        str = xml.att.frame;
+        str = xml.AttrAccess("frame");
         if (str != null)
             _movieClip.currentFrame = Std.parseInt(str);
-        str = xml.att.playing;
+        str = xml.AttrAccess("playing");
         _movieClip.playing = str != "false";
-        str = xml.att.color;
+        str = xml.AttrAccess("color");
         if (str != null)
             this.color = ToolSet.convertFromHtmlColor(str);
     }

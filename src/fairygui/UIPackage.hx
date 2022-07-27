@@ -190,10 +190,10 @@ class UIPackage
     public static function setStringsSource(source : FastXML) : Void
     {
         _stringsSource = new Map<String, Dynamic>();
-        var list : FastXMLList = source.node.resolve("string").descendants();
+        var list : FastXMLList = source.NodeAccess("string").descendants();
         for (xml in list)
         {
-            var key : String = xml.att.name;
+            var key : String = xml.AttrAccess("name");
             var text : String = Std.string(xml);
             var i : Int = key.indexOf("-");
             if (i == -1) 
@@ -238,10 +238,10 @@ class UIPackage
         
         var xml : FastXML = FastXML.parse(str).firstChild();
 
-        _id = xml.att.id;
-        _name = xml.att.name;
+        _id = xml.AttrAccess("id");//xml.AttrAccess("id");
+        _name = xml.AttrAccess("name");
 
-        var resources : Iterator<FastXML> = xml.node.resolve("resources").elements;
+        var resources : Iterator<FastXML> = xml.NodeAccess("resources").elements;//.resolve("resources").elements;
         
         _itemsById = new Map<String, PackageItem>();
         _itemsByName = new Map<String, PackageItem>();
@@ -253,10 +253,10 @@ class UIPackage
             pi = new PackageItem();
             pi.owner = this;
             pi.type = PackageItemType.parseType(cxml.name);
-            pi.id = cxml.att.id;
-            pi.name = cxml.att.name;
-            pi.file = try cxml.att.file catch (e:Dynamic) null;
-            var sizeStr = try cxml.att.size catch (e:Dynamic) null;
+            pi.id = cxml.AttrAccess("id");//cxml.AttrAccess("id");
+            pi.name = cxml.AttrAccess("name");//cxml.AttrAccess("name");
+            pi.file = try cxml.AttrAccess("file") catch (e:Dynamic) null;
+            var sizeStr = try cxml.AttrAccess("size") catch (e:Dynamic) null;
             if (sizeStr != null)
             {
                 arr = sizeStr.split(",");
@@ -268,18 +268,18 @@ class UIPackage
             {
                 case PackageItemType.Image:
                 {
-                    str = try cxml.att.scale catch(e:Dynamic) null;
+                    str = try cxml.AttrAccess("scale") catch(e:Dynamic) null;
                     if (str == "9grid") 
                     {
                         pi.scale9Grid = new Rectangle();
-                        str = cxml.att.scale9grid;
+                        str = cxml.AttrAccess("scale9grid");
                         arr = str.split(",");
                         pi.scale9Grid.x = Std.parseFloat(arr[0]);
                         pi.scale9Grid.y = Std.parseFloat(arr[1]);
                         pi.scale9Grid.width = Std.parseFloat(arr[2]);
                         pi.scale9Grid.height = Std.parseFloat(arr[3]);
                         
-                        str = try cxml.att.gridTile catch(e:Dynamic) null;
+                        str = try cxml.AttrAccess("gridTile") catch(e:Dynamic) null;
                         if (str != null) 
                             pi.tileGridIndice = Std.parseInt(str);
                     }
@@ -287,11 +287,11 @@ class UIPackage
                     {
                         pi.scaleByTile = true;
                     }
-                    str = try cxml.att.smoothing catch(e:Dynamic) null;
+                    str = try cxml.AttrAccess("smoothing") catch(e:Dynamic) null;
                     pi.smoothing = str != "false";
                 }
                 case PackageItemType.MovieClip:
-                    str = try cxml.att.smoothing catch(e:Dynamic) null;
+                    str = try cxml.AttrAccess("smoothing") catch(e:Dynamic) null;
                     pi.smoothing = str != "false";
                 case PackageItemType.Component:
                     UIObjectFactory.resolvePackageItemExtension(pi);
@@ -408,7 +408,7 @@ class UIPackage
         {
             if (userClass != null) 
             {
-                if (Std.is(userClass, Class)) 
+                if (Std.isOfType(userClass, Class)) 
                     g = cast(Type.createInstance(userClass, []), GObject);
                 else 
                     g = cast(userClass, GObject);
@@ -481,7 +481,7 @@ class UIPackage
     
     private function loadComponentChildren(item : PackageItem) : Void
     {
-        var listNode : FastXML = item.componentData.node.displayList;
+        var listNode : FastXML = item.componentData.NodeAccess("displayList");
         if (listNode != null) 
         {
             var col : Iterator<FastXML> = listNode.elements;
@@ -493,10 +493,10 @@ class UIPackage
 //            for (i in 0...dcnt){
 //                var cxml : FastXML = col.get(i);
                 var tagName : String = cxml.name;
-                var src : String = cxml.att.src;
+                var src : String = cxml.AttrAccess("src");
                 if (src != null) 
                 {
-                    var pkgId : String = cxml.att.pkg;
+                    var pkgId : String = cxml.AttrAccess("pkg");
                     var pkg : UIPackage;
                     if (pkgId != null && pkgId != item.owner.id) 
                         pkg = UIPackage.getById(pkgId);
@@ -511,7 +511,7 @@ class UIPackage
                 }
                 else 
                 {
-                    if (tagName == "text" && cxml.att.input == "true")
+                    if (tagName == "text" && cxml.AttrAccess("input") == "true")
                         di = new DisplayListItem(null, "inputtext");
                     else 
                         di = new DisplayListItem(null, tagName);
@@ -542,15 +542,15 @@ class UIPackage
         {
             cxml = item.displayList[i].desc;
             var ename : String = cxml.name;
-            var elementId : String = cxml.att.id;
+            var elementId : String = cxml.AttrAccess("id");
             
-            if (cxml.att.resolve("tooltips").length > 0)
+            if (cxml.AttrAccess("tooltips").length > 0)
             {
                 value = strings[elementId + "-tips"];
                 if (value != null) 
                     cxml.setAttribute("tooltips", value);
             }
-            dxml = cxml.node.gearText;
+            dxml = cxml.NodeAccess("gearText");
             if (dxml != null)
             {
                 value = strings[elementId+"-texts"];
@@ -575,7 +575,7 @@ class UIPackage
             }
             else if (ename == "list") 
             {
-                items = cxml.nodes.item;
+                items = cxml.NodeListAccess("item");
                 j = 0;
                 for (exml in items.iterator())
                 {
@@ -587,7 +587,7 @@ class UIPackage
             }
             else if (ename == "component") 
             {
-                dxml = cxml.node.Button;
+                dxml = cxml.NodeAccess("Button");
                 if (dxml != null) 
                 {
                     value = strings[elementId];
@@ -599,7 +599,7 @@ class UIPackage
                     continue;
                 }
 
-                dxml = cxml.node.Label;
+                dxml = cxml.NodeAccess("Label");
                 if (dxml != null)
                 {
                     value = strings[elementId];
@@ -611,14 +611,14 @@ class UIPackage
                     continue;
                 }
 
-                dxml = cxml.node.ComboBox;
+                dxml = cxml.NodeAccess("ComboBox");
                 if (dxml != null)
                 {
                     value = strings[elementId];
                     if (value != null)
                         dxml.setAttribute("title", value);
 
-                    items = dxml.nodes.item;
+                    items = dxml.NodeListAccess("item");
                     j = 0;
                     for (exml in items.iterator())
                     {
@@ -765,27 +765,27 @@ class UIPackage
         var xml : FastXML = getXMLDesc(item.id + ".xml");
         var str : String;
         var arr : Array<Dynamic>;
-        str = xml.att.interval;
+        str = xml.AttrAccess("interval");
         if (str != null) 
             item.interval = Std.parseInt(str);
-        str = xml.att.swing;
+        str = xml.AttrAccess("swing");
         if (str != null) 
             item.swing = str == "true";
-        str = xml.att.repeatDelay;
+        str = xml.AttrAccess("repeatDelay");
         if (str != null) 
             item.repeatDelay = Std.parseInt(str);
         
-        var frameCount : Int = Std.parseInt(xml.att.frameCount);
+        var frameCount : Int = Std.parseInt(xml.AttrAccess("frameCount"));
         item.frames = new Array<Frame>();
-        var frameNodes : FastXMLList = xml.node.resolve("frames").descendants();
+        var frameNodes : FastXMLList = xml.NodeAccess("frames").descendants();
         for (i in 0...frameCount-1)
         {
             var frame : Frame = new Frame();
             var frameNode : FastXML = frameNodes.get(i);
-            str = frameNode.att.rect;
+            str = frameNode.AttrAccess("rect");
             arr = str.split(",");
             frame.rect = new Rectangle(Std.parseInt(arr[0]), Std.parseInt(arr[1]), Std.parseInt(arr[2]), Std.parseInt(arr[3]));
-            str = frameNode.att.addDelay;
+            str = frameNode.AttrAccess("addDelay");
             if (str != null)
                 frame.addDelay = Std.parseInt(str);
             item.frames[i] = frame;
@@ -793,7 +793,7 @@ class UIPackage
             if (frame.rect.width == 0) 
                 continue;
             
-            str = frameNode.att.sprite;
+            str = frameNode.AttrAccess("sprite");
             if (str != null) 
                 str = item.id + "_" + str + ".png";
             else 

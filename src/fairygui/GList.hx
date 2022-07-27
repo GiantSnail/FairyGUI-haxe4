@@ -322,7 +322,7 @@ class GList extends GComponent
     {
         super.addChildAt(child, index);
 
-        if (Std.is(child, GButton))
+        if (Std.isOfType(child, GButton))
         {
             var button:GButton = cast(child, GButton);
             button.selected = false;
@@ -388,7 +388,7 @@ class GList extends GComponent
             for (i in 0..._realNumItems)
             {
                 var ii:ItemInfo = _virtualItems[i];
-                if (Std.is(ii.obj, GButton) && cast(ii.obj, GButton).selected || ii.obj == null && ii.selected)
+                if (Std.isOfType(ii.obj, GButton) && cast(ii.obj, GButton).selected || ii.obj == null && ii.selected)
                 {
                     if (_loop)
                         return i % _numItems;
@@ -435,7 +435,7 @@ class GList extends GComponent
             while(i<_realNumItems)
             {
                 var ii:ItemInfo = _virtualItems[i];
-                if (Std.is(ii.obj, GButton) && cast(ii.obj, GButton).selected || ii.obj == null && ii.selected)
+                if (Std.isOfType(ii.obj, GButton) && cast(ii.obj, GButton).selected || ii.obj == null && ii.selected)
                 {
                     if (_loop)
                     {
@@ -523,7 +523,7 @@ class GList extends GComponent
             for (i in 0..._realNumItems)
             {
                 var ii:ItemInfo = _virtualItems[i];
-                if (Std.is(ii.obj, GButton))
+                if (Std.isOfType(ii.obj, GButton))
                     cast(ii.obj, GButton).selected = false;
                 ii.selected = false;
             }
@@ -550,7 +550,7 @@ class GList extends GComponent
                 var ii:ItemInfo = _virtualItems[i];
                 if (ii.obj != g)
                 {
-                    if (Std.is(ii.obj, GButton))
+                    if (Std.isOfType(ii.obj, GButton))
                         cast(ii.obj, GButton).selected = false;
                     ii.selected = false;
                 }
@@ -579,7 +579,7 @@ class GList extends GComponent
             for (i in 0..._realNumItems)
             {
                 var ii:ItemInfo = _virtualItems[i];
-                if (Std.is(ii.obj, GButton) && !cast(ii.obj, GButton).selected)
+                if (Std.isOfType(ii.obj, GButton) && !cast(ii.obj, GButton).selected)
                 {
                     cast(ii.obj, GButton).selected = true;
                     last = i;
@@ -621,7 +621,7 @@ class GList extends GComponent
             for (i in 0..._realNumItems)
             {
                 var ii:ItemInfo = _virtualItems[i];
-                if (Std.is(ii.obj, GButton))
+                if (Std.isOfType(ii.obj, GButton))
                 {
                     cast(ii.obj, GButton).selected = !cast(ii.obj, GButton).selected;
                     if (cast(ii.obj, GButton).selected)
@@ -828,9 +828,9 @@ class GList extends GComponent
 
         for (obj in objs)
         {
-            while (obj != null && !Std.is(obj, Stage))
+            while (obj != null && !Std.isOfType(obj, Stage))
             {
-                if (Std.is(obj, UIDisplayObject))
+                if (Std.isOfType(obj, UIDisplayObject))
                 {
                     var gobj:GObject = cast(obj, UIDisplayObject).owner;
                     while (gobj != null && gobj.parent != this)
@@ -867,7 +867,7 @@ class GList extends GComponent
     private function __rightClickItem(evt:MouseEvent):Void
     {
         var item:GObject = cast(evt.currentTarget, GObject);
-        if (Std.is(item, GButton) && !cast(item, GButton).selected)
+        if (Std.isOfType(item, GButton) && !cast(item, GButton).selected)
             setSelectionOnEvent(item);
 
         if (scrollPane != null && scrollItemToViewOnClick)
@@ -882,7 +882,7 @@ class GList extends GComponent
 
     private function setSelectionOnEvent(item:GObject):Void
     {
-        if (!Std.is(item, GButton) || _selectionMode == ListSelectionMode.None)
+        if (!Std.isOfType(item, GButton) || _selectionMode == ListSelectionMode.None)
             return;
 
         var dontChangeLastIndex:Bool = false;
@@ -915,7 +915,7 @@ class GList extends GComponent
                             for (i in min...max+1)
                             {
                                 var ii:ItemInfo = _virtualItems[i];
-                                if (Std.is(ii.obj, GButton))
+                                if (Std.isOfType(ii.obj, GButton))
                                     cast(ii.obj, GButton).selected = true;
                                 ii.selected = true;
                             }
@@ -1808,7 +1808,7 @@ class GList extends GComponent
 
                 if (ii.obj != null && ii.obj.resourceURL != url)
                 {
-                    if (Std.is(ii.obj, GButton))
+                    if (Std.isOfType(ii.obj, GButton))
                         ii.selected = cast(ii.obj, GButton).selected;
                     removeChildToPool(ii.obj);
                     ii.obj = null;
@@ -1826,7 +1826,7 @@ class GList extends GComponent
                         ii2 = _virtualItems[j];
                         if (ii2.obj != null && ii2.updateFlag != itemInfoVer && ii2.obj.resourceURL == url)
                         {
-                            if (Std.is(ii2.obj, GButton))
+                            if (Std.isOfType(ii2.obj, GButton))
                                 ii2.selected = cast(ii2.obj, GButton).selected;
                             ii.obj = ii2.obj;
                             ii2.obj = null;
@@ -1844,7 +1844,7 @@ class GList extends GComponent
                         ii2 = _virtualItems[j];
                         if (ii2.obj != null && ii2.updateFlag != itemInfoVer && ii2.obj.resourceURL == url)
                         {
-                            if (Std.is(ii2.obj, GButton))
+                            if (Std.isOfType(ii2.obj, GButton))
                                 ii2.selected = cast(ii2.obj, GButton).selected;
                             ii.obj = ii2.obj;
                             ii2.obj = null;
@@ -1867,7 +1867,7 @@ class GList extends GComponent
                     else
                         this.addChild(ii.obj);
                 }
-                if (Std.is(ii.obj, GButton))
+                if (Std.isOfType(ii.obj, GButton))
                     cast(ii.obj, GButton).selected = ii.selected;
 
                 needRender = true;
@@ -1914,7 +1914,7 @@ class GList extends GComponent
             ii = _virtualItems[oldFirstIndex + i];
             if (ii.updateFlag != itemInfoVer && ii.obj != null)
             {
-                if (Std.is(ii.obj, GButton))
+                if (Std.isOfType(ii.obj, GButton))
                     ii.selected = cast(ii.obj, GButton).selected;
                 removeChildToPool(ii.obj);
                 ii.obj = null;
@@ -1987,7 +1987,7 @@ class GList extends GComponent
 
                 if (ii.obj != null && ii.obj.resourceURL != url)
                 {
-                    if (Std.is(ii.obj, GButton))
+                    if (Std.isOfType(ii.obj, GButton))
                         ii.selected = cast(ii.obj, GButton).selected;
                     removeChildToPool(ii.obj);
                     ii.obj = null;
@@ -2004,7 +2004,7 @@ class GList extends GComponent
                         ii2 = _virtualItems[j];
                         if (ii2.obj != null && ii2.updateFlag != itemInfoVer && ii2.obj.resourceURL == url)
                         {
-                            if (Std.is(ii2.obj, GButton))
+                            if (Std.isOfType(ii2.obj, GButton))
                                 ii2.selected = cast(ii2.obj, GButton).selected;
                             ii.obj = ii2.obj;
                             ii2.obj = null;
@@ -2022,7 +2022,7 @@ class GList extends GComponent
                         ii2 = _virtualItems[j];
                         if (ii2.obj != null && ii2.updateFlag != itemInfoVer && ii2.obj.resourceURL == url)
                         {
-                            if (Std.is(ii2.obj, GButton))
+                            if (Std.isOfType(ii2.obj, GButton))
                                 ii2.selected = cast(ii2.obj, GButton).selected;
                             ii.obj = ii2.obj;
                             ii2.obj = null;
@@ -2045,7 +2045,7 @@ class GList extends GComponent
                     else
                         this.addChild(ii.obj);
                 }
-                if (Std.is(ii.obj, GButton))
+                if (Std.isOfType(ii.obj, GButton))
                     cast(ii.obj, GButton).selected = ii.selected;
 
                 needRender = true;
@@ -2092,7 +2092,7 @@ class GList extends GComponent
             ii = _virtualItems[oldFirstIndex + i];
             if (ii.updateFlag != itemInfoVer && ii.obj != null)
             {
-                if (Std.is(ii.obj, GButton))
+                if (Std.isOfType(ii.obj, GButton))
                     ii.selected = cast(ii.obj, GButton).selected;
                 removeChildToPool(ii.obj);
                 ii.obj = null;
@@ -2184,7 +2184,7 @@ class GList extends GComponent
                     ii2 = _virtualItems[reuseIndex];
                     if (ii2.obj != null && ii2.updateFlag != itemInfoVer)
                     {
-                        if (Std.is(ii2.obj, GButton))
+                        if (Std.isOfType(ii2.obj, GButton))
                             ii2.selected = cast(ii2.obj, GButton).selected;
                         ii.obj = ii2.obj;
                         ii2.obj = null;
@@ -2215,7 +2215,7 @@ class GList extends GComponent
                 }
                 insertIndex++;
 
-                if (Std.is(ii.obj, GButton))
+                if (Std.isOfType(ii.obj, GButton))
                     cast(ii.obj, GButton).selected = ii.selected;
 
                 needRender = true;
@@ -2285,7 +2285,7 @@ class GList extends GComponent
             ii = _virtualItems[i];
             if (ii.updateFlag != itemInfoVer && ii.obj != null)
             {
-                if (Std.is(ii.obj, GButton))
+                if (Std.isOfType(ii.obj, GButton))
                     ii.selected = cast(ii.obj, GButton).selected;
                 removeChildToPool(ii.obj);
                 ii.obj = null;
@@ -2718,54 +2718,54 @@ class GList extends GComponent
         super.setup_beforeAdd(xml);
 
         var str:String;
-        str = xml.att.layout;
+        str = xml.AttrAccess("layout");
         if (str != null)
             _layout = ListLayoutType.parse(str);
 
         var overflow:Int;
-        str = xml.att.overflow;
+        str = xml.AttrAccess("overflow");
         if (str != null)
             overflow = OverflowType.parse(str);
         else
             overflow = OverflowType.Visible;
 
-        str = xml.att.margin;
+        str = xml.AttrAccess("margin");
         if (str != null)
             _margin.parse(str);
 
-        str = xml.att.align;
+        str = xml.AttrAccess("align");
         if (str != null)
             _align = AlignType.parse(str);
 
-        str = xml.att.vAlign;
+        str = xml.AttrAccess("vAlign");
         if (str != null)
             _verticalAlign = VertAlignType.parse(str);
 
         if (overflow == OverflowType.Scroll)
         {
             var scroll:Int;
-            str = xml.att.scroll;
+            str = xml.AttrAccess("scroll");
             if (str != null)
                 scroll = ScrollType.parse(str);
             else
                 scroll = ScrollType.Vertical;
 
             var scrollBarDisplay:Int;
-            str = xml.att.scrollBar;
+            str = xml.AttrAccess("scrollBar");
             if (str != null)
                 scrollBarDisplay = ScrollBarDisplayType.parse(str);
             else
                 scrollBarDisplay = ScrollBarDisplayType.Default;
-            var scrollBarFlags:Int = Std.parseInt(xml.att.scrollBarFlags);
+            var scrollBarFlags:Int = Std.parseInt(xml.AttrAccess("scrollBarFlags"));
 
             var scrollBarMargin:Margin = new Margin();
-            str = xml.att.scrollBarMargin;
+            str = xml.AttrAccess("scrollBarMargin");
             if (str != null)
                 scrollBarMargin.parse(str);
 
             var vtScrollBarRes:String = null;
             var hzScrollBarRes:String = null;
-            str = xml.att.scrollBarRes;
+            str = xml.AttrAccess("scrollBarRes");
             if (str != null)
             {
                 var arr:Array<Dynamic> = str.split(",");
@@ -2779,15 +2779,15 @@ class GList extends GComponent
         else
             setupOverflow(overflow);
 
-        str = xml.att.lineGap;
+        str = xml.AttrAccess("lineGap");
         if (str != null)
             _lineGap = Std.parseInt(str);
 
-        str = xml.att.colGap;
+        str = xml.AttrAccess("colGap");
         if (str != null)
             _columnGap = Std.parseInt(str);
 
-        str = xml.att.lineItemCount;
+        str = xml.AttrAccess("lineItemCount");
         if (str != null)
         {
             if (_layout == ListLayoutType.FlowHorizontal || _layout == ListLayoutType.Pagination)
@@ -2796,40 +2796,40 @@ class GList extends GComponent
                 _lineCount = Std.parseInt(str);
         }
 
-        str = xml.att.lineItemCount2;
+        str = xml.AttrAccess("lineItemCount2");
         if (str != null)
             _lineCount = Std.parseInt(str);
 
-        str = xml.att.selectionMode;
+        str = xml.AttrAccess("selectionMode");
         if (str != null)
             _selectionMode = ListSelectionMode.parse(str);
 
-        str = xml.att.defaultItem;
+        str = xml.AttrAccess("defaultItem");
         if (str != null)
             _defaultItem = str;
 
-        str = xml.att.autoItemSize;
+        str = xml.AttrAccess("autoItemSize");
         if (_layout == ListLayoutType.SingleRow || _layout == ListLayoutType.SingleColumn)
             _autoResizeItem = str != "false";
         else
             _autoResizeItem = str == "true";
 
-        str = xml.att.renderOrder;
+        str = xml.AttrAccess("renderOrder");
         if (str != null)
         {
             _childrenRenderOrder = ChildrenRenderOrder.parse(str);
             if (_childrenRenderOrder == ChildrenRenderOrder.Arch)
             {
-                str = xml.att.apex;
+                str = xml.AttrAccess("apex");
                 if (str != null)
                     _apexIndex = Std.parseInt(str);
             }
         }
 
-        var col:FastXMLList = xml.nodes.item;
+        var col:FastXMLList = xml.NodeListAccess("item");
         for (cxml in col.iterator())
         {
-            var url:String = cxml.att.url;
+            var url:String = cxml.AttrAccess("url");
             if (url == null)
                 url = _defaultItem;
             if (url == null)
@@ -2839,13 +2839,13 @@ class GList extends GComponent
             if (obj != null)
             {
                 addChild(obj);
-                str = cxml.att.title;
+                str = cxml.AttrAccess("title");
                 if (str != null)
                     obj.text = str;
-                str = cxml.att.icon;
+                str = cxml.AttrAccess("icon");
                 if (str != null)
                     obj.icon = str;
-                str = cxml.att.name;
+                str = cxml.AttrAccess("name");
                 if (str != null)
                     obj.name = str;
             }
@@ -2856,7 +2856,7 @@ class GList extends GComponent
     {
         super.setup_afterAdd(xml);
 
-        var str:String = xml.att.selectionController;
+        var str:String = xml.AttrAccess("selectionController");
         if (str != null)
             _selectionController = parent.getController(str);
     }

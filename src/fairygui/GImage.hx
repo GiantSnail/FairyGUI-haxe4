@@ -199,11 +199,11 @@ class GImage extends GObject implements IColorGear
         super.setup_beforeAdd(xml);
 
         var str:String;
-        str = xml.att.color;
+        str = xml.AttrAccess("color");
         if (str != null)
             this.color = ToolSet.convertFromHtmlColor(str);
 
-        str = xml.att.flip;
+        str = xml.AttrAccess("flip");
         if (str != null)
             this.flip = FlipType.parse(str);
     }

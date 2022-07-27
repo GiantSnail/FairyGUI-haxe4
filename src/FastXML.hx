@@ -1,104 +1,105 @@
 import FastXML;
-private class NodeAccess implements Dynamic<FastXML>
-{
+// private class NodeAccess extends Dynamic<FastXML>//implements
+// {
 
-    var __x:Xml;
+//     var __x:Xml;
 
-    public function new(x:Xml)
-    {
-        __x = x;
-    }
+//     public function new(x:Xml)
+//     {
+//         __x = x;
+//     }
 
-    public function resolve(name:String):FastXML
-    {
-        var x = __x.elementsNamed(name).next();
-        if (x == null)
-        {
-            var xname = (__x.nodeType == Xml.Document) ? "Document" : __x.nodeName;
-            throw xname + " is missing element " + name;
-        }
-        return new FastXML(x);
-    }
+//     public function resolve(name:String):FastXML
+//     {
+//         var x = __x.elementsNamed(name).next();
+//         if (x == null)
+//         {
+//             var xname = (__x.nodeType == Xml.Document) ? "Document" : __x.nodeName;
+//             throw xname + " is missing element " + name;
+//         }
+//         return new FastXML(x);
+//     }
 
-}
+// }
 
-private class AttribAccess implements Dynamic<String>
-{
-    var __x:Xml;
+// private class AttribAccess extends Dynamic<String>//implements
+// {
+//     var __x:Xml;
 
-    public function new(x:Xml)
-    {
-        __x = x;
-    }
+//     public function new(x:Xml)
+//     {
+//         __x = x;
+//     }
 
-    public function resolve(name:String):String
-    {
-        if (__x.nodeType == Xml.Document)
-            throw "Cannot access document attribute " + name;
-        var v = __x.get(name);
-        if (v == null)
-//            throw __x.nodeName+" is missing attribute "+name;
-            v = null;
-        return v;
-    }
+//     public function resolve(name:String):String
+//     {
+//         if (__x.nodeType == Xml.Document)
+//             throw "Cannot access document attribute " + name;
+//         var v = __x.get(name);
+//         if (v == null)
+// //            throw __x.nodeName+" is missing attribute "+name;
+//             v = null;
+//         return v;
+//     }
 
-}
+// }
 
-private class HasAttribAccess implements Dynamic<Bool>
-{
+// private class HasAttribAccess implements Dynamic<Bool>//implements
+// {
 
-    var __x:Xml;
+//     var __x:Xml;
 
-    public function new(x:Xml)
-    {
-        __x = x;
-    }
+//     public function new(x:Xml)
+//     {
+//         __x = x;
+//     }
 
-    public function resolve(name:String):Bool
-    {
-        if (__x.nodeType == Xml.Document)
-            throw "Cannot access document attribute " + name;
-        return __x.exists(name);
-    }
+//     public function resolve(name:String):Bool
+//     {
+//         if (__x.nodeType == Xml.Document)
+//             throw "Cannot access document attribute " + name;
+//         return __x.exists(name);
+//     }
 
-}
+// }
 
-private class HasNodeAccess implements Dynamic<Bool>
-{
 
-    var __x:Xml;
+// private class HasNodeAccess implements Dynamic<Bool>// Dynamic<Bool>//implements
+// {
 
-    public function new(x:Xml)
-    {
-        __x = x;
-    }
+//     var __x:Xml;
 
-    public function resolve(name:String):Bool
-    {
-        return __x.elementsNamed(name).hasNext();
-    }
+//     public function new(x:Xml)
+//     {
+//         __x = x;
+//     }
 
-}
+//     public function resolve(name:String):Bool
+//     {
+//         return __x.elementsNamed(name).hasNext();
+//     }
 
-private class NodeListAccess implements Dynamic<FastXMLList>
-{
+// }
 
-    var __x:Xml;
+// private class NodeListAccess implements Dynamic<FastXMLList>// //implements
+// {
 
-    public function new(x:Xml)
-    {
-        __x = x;
-    }
+//     var __x:Xml;
 
-    public function resolve(name:String):FastXMLList
-    {
-        var l = new Array();
-        for (x in __x.elementsNamed(name))
-            l.push(new FastXML(x));
-        return new FastXMLList(l);
-    }
+//     public function new(x:Xml)
+//     {
+//         __x = x;
+//     }
 
-}
+//     public function resolve(name:String):FastXMLList
+//     {
+//         var l = new Array();
+//         for (x in __x.elementsNamed(name))
+//             l.push(new FastXML(x));
+//         return new FastXMLList(l);
+//     }
+
+// }
 
 class FastXML
 {
@@ -108,30 +109,68 @@ class FastXML
     public var value(get, null):String;
     public var innerData(get, null):String;
     public var innerHTML(get, null):String;
-    public var node(default, null):NodeAccess;
-    public var nodes(default, null):NodeListAccess;
-    public var att(default, null):AttribAccess;
-    public var has(default, null):HasAttribAccess;
-    public var hasNode(default, null):HasNodeAccess;
+    // public var node(default, null):NodeAccess;
+    // public var nodes(default, null):NodeListAccess;
+    // public var att(default, null):AttribAccess;
+    // public var has(default, null):HasAttribAccess;
+    // public var hasNode(default, null):HasNodeAccess;
     public var elements(get, null):Iterator<FastXML>;
 
+    /**
+        获得节点
+    **/
+    public function NodeAccess(name:String):FastXML{//rewrite [NodeAccess] 
+        var ret = this.x.elementsNamed(name).next();
+        if (ret == null)
+        {
+            var xname = (this.x.nodeType == Xml.Document) ? "Document" : this.x.nodeName;
+            throw xname + " is missing element " + name;
+        }
+        return new FastXML(ret);
+    }
+
+    public function AttrAccess(name:String):String{
+        if (this.x.nodeType == Xml.Document)
+            throw "Cannot access document attribute " + name;
+        var v = this.x.get(name);
+        if (v == null)
+            v = null;
+        return v;
+    }
+
+    public function HasAttr(name:String):Bool{
+        if (this.x.nodeType == Xml.Document)
+            throw "Cannot access document attribute " + name;
+        return this.x.exists(name);
+    }
+
+    public function HasNode(name:String):Bool{
+        return this.x.elementsNamed(name).hasNext();
+    }
+
+    public function NodeListAccess(name:String):FastXMLList{
+        var l = new Array();
+        for (tX in this.x.elementsNamed(name))
+            l.push(new FastXML(tX));
+        return new FastXMLList(l);
+    }
     public function new(x:Xml)
     {
         if (x.nodeType != Xml.Document && x.nodeType != Xml.Element && x.nodeType != Xml.PCData)
             throw "Invalid nodeType " + x.nodeType;
         this.x = x;
-        node = new NodeAccess(x);
-        nodes = new NodeListAccess(x);
-        att = new AttribAccess(x);
-        has = new HasAttribAccess(x);
-        hasNode = new HasNodeAccess(x);
+        // node = new NodeAccess(x);
+        // nodes = new NodeListAccess(x);
+        // att = new AttribAccess(x);
+        // has = new HasAttribAccess(x);
+        // hasNode = new HasNodeAccess(x);
     }
 
     public function appendChild(a:Dynamic)
     {
-        if (Std.is(a, Xml))
+        if (Std.isOfType(a, Xml))
             x.addChild(a);
-        else if (Std.is(a, FastXML))
+        else if (Std.isOfType(a, FastXML))
         {
             x.addChild(cast(a, FastXML).x);
         }

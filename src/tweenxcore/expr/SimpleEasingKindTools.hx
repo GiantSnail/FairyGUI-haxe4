@@ -48,7 +48,7 @@ class SimpleEasingKindTools
     
     public static function fromJsonable(data:Dynamic):SimpleEasingKind 
     {
-        return if (Std.is(data, String))
+        return if (Std.isOfType(data, String))
         {
             switch (data)
             {

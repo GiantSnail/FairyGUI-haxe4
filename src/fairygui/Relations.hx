@@ -209,12 +209,12 @@ class Relations
     
     public function setup(xml : FastXML) : Void
     {
-        var col : FastXMLList = xml.nodes.relation;
+        var col : FastXMLList = xml.NodeListAccess("relation");
         var targetId : String;
         var target : GObject;
         for (cxml in col.iterator())
         {
-            targetId = cxml.att.target;
+            targetId = cxml.AttrAccess("target");
             if (_owner.parent != null)
             {
                 if (targetId != null && targetId != "")
@@ -228,7 +228,7 @@ class Relations
                 target = cast(_owner, GComponent).getChildById(targetId);
             }
             if (target != null) 
-                addItems(target, cxml.att.sidePair);
+                addItems(target, cxml.AttrAccess("sidePair"));
         }
     }
 }

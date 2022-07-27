@@ -33,8 +33,8 @@ class ChangePageAction extends ControllerAction
     {
         super.setup(xml);
 
-        objectId = xml.att.objectId;
-        controllerName = xml.att.controller;
-        targetPage = xml.att.targetPage;
+        objectId = xml.AttrAccess("objectId");
+        controllerName = xml.AttrAccess("controller");
+        targetPage = xml.AttrAccess("targetPage");
     }
 }

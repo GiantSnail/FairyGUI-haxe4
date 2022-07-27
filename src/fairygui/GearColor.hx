@@ -18,7 +18,7 @@ class GearColor extends GearBase
 
     override private function init():Void
     {
-        if (Std.is(_owner, ITextColorGear))
+        if (Std.isOfType(_owner, ITextColorGear))
             _default = new GearColorValue(cast(_owner, IColorGear).color, cast(_owner, ITextColorGear).strokeColor);
         else
             _default = new GearColorValue(cast(_owner, IColorGear).color);
@@ -61,7 +61,7 @@ class GearColor extends GearBase
             gv = _default;
 
         cast(_owner, IColorGear).color = gv.color;
-        if (Std.is(_owner, ITextColorGear) && gv.strokeColor != (0xFF000000:UInt))
+        if (Std.isOfType(_owner, ITextColorGear) && gv.strokeColor != (0xFF000000:UInt))
             cast(_owner, ITextColorGear).strokeColor = gv.strokeColor;
 
         _owner._gearLocked = false;
@@ -77,7 +77,7 @@ class GearColor extends GearBase
         }
 
         gv.color = cast(_owner, IColorGear).color;
-        if (Std.is(_owner, ITextColorGear))
+        if (Std.isOfType(_owner, ITextColorGear))
             gv.strokeColor = cast(_owner, ITextColorGear).strokeColor;
     }
 }
