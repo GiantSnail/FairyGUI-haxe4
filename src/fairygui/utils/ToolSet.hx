@@ -236,9 +236,9 @@ class ToolSet
     
     public static function displayObjectToGObject(obj : DisplayObject) : GObject
     {
-        while (obj != null && !(Std.is(obj, Stage)))
+        while (obj != null && !(Std.isOfType(obj, Stage)))
         {
-            if (Std.is(obj, UIDisplayObject)) 
+            if (Std.isOfType(obj, UIDisplayObject)) 
                 return cast((obj), UIDisplayObject).owner;
             
             obj = obj.parent;

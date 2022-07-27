@@ -238,7 +238,7 @@ class GGraph extends GObject implements IColorGear
     override public function setup_beforeAdd(xml:FastXML):Void
     {
         var str:String;
-        var type:String = xml.att.type;
+        var type:String = xml.AttrAccess("type");
         if (type != null && type != "empty")
         {
             setDisplayObject(new UISprite(this));
@@ -250,11 +250,11 @@ class GGraph extends GObject implements IColorGear
         {
             _graphics = cast(this.displayObject, Sprite).graphics;
 
-            str = xml.att.lineSize;
+            str = xml.AttrAccess("lineSize");
             if (str != null)
                 _lineSize = Std.parseInt(str);
 
-            str = xml.att.lineColor;
+            str = xml.AttrAccess("lineColor");
             var c:Int;
             if (str != null)
             {
@@ -263,7 +263,7 @@ class GGraph extends GObject implements IColorGear
                 _lineAlpha = ((c >> 24) & 0xFF) / 0xFF;
             }
 
-            str = xml.att.fillColor;
+            str = xml.AttrAccess("fillColor");
             if (str != null)
             {
                 c = ToolSet.convertFromHtmlColor(str, true);
@@ -271,7 +271,7 @@ class GGraph extends GObject implements IColorGear
                 _fillAlpha = ((c >> 24) & 0xFF) / 0xFF;
             }
 
-            str = xml.att.corner;
+            str = xml.AttrAccess("corner");
             if (str != null)
                 _corner = str.split(",");
 

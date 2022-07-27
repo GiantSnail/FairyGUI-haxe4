@@ -19,7 +19,7 @@ class CompatUtil
         #if flash
         return untyped __global__['Number'].MAX_VALUE;
         #elseif js
-        return untyped __js__('Number.MAX_VALUE');
+        return untyped js.Syntax.code('Number.MAX_VALUE');
         #elseif cs
         return untyped __cs__('double.MaxValue');
         #elseif java
@@ -44,7 +44,7 @@ class CompatUtil
         #if flash
         return untyped __global__['Number'].MIN_VALUE;
         #elseif js
-        return untyped __js__('Number.MIN_VALUE');
+        return untyped js.Syntax.code('Number.MIN_VALUE');
         #elseif cs
         return untyped __cs__('double.MinValue');
         #elseif java
@@ -65,7 +65,7 @@ class CompatUtil
         #if flash
         return untyped __global__['int'].MAX_VALUE;
         #elseif js
-        return untyped __js__('Number.MAX_SAFE_INTEGER');
+        return untyped js.Syntax.code('Number.MAX_SAFE_INTEGER');
         #elseif cs
         return untyped __cs__('int.MaxValue');
         #elseif java
@@ -91,7 +91,7 @@ class CompatUtil
         #if flash
         return untyped __global__['int'].MIN_VALUE;
         #elseif js
-        return untyped __js__('Number.MIN_SAFE_INTEGER');
+        return untyped js.Syntax.code('Number.MIN_SAFE_INTEGER');
         #elseif cs
         return untyped __cs__('int.MinValue');
         #elseif java

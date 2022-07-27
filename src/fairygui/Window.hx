@@ -118,7 +118,7 @@ class Window extends GComponent
             _dragArea = value;
             if (_dragArea != null)
             {
-                if ((Std.is(_dragArea, GGraph)) && cast((_dragArea), GGraph).displayObject == null)
+                if ((Std.isOfType(_dragArea, GGraph)) && cast((_dragArea), GGraph).displayObject == null)
                     _dragArea.asGraph.drawRect(0, 0, 0, 0, 0);
                 _dragArea.draggable = true;
                 _dragArea.addEventListener(DragEvent.DRAG_START, __dragStart);
@@ -156,7 +156,7 @@ class Window extends GComponent
 
     public function hideImmediately():Void
     {
-        var r:GRoot = Std.is(parent, GRoot) ? cast(parent, GRoot) : null;
+        var r:GRoot = Std.isOfType(parent, GRoot) ? cast(parent, GRoot) : null;
         if (r == null)
             r = GRoot.inst;
         r.hideWindowImmediately(this);

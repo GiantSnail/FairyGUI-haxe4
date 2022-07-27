@@ -453,14 +453,14 @@ class GGroup extends GObject
 
         var str:String;
 
-        str = xml.att.layout;
+        str = xml.AttrAccess("layout");
         if (str != null)
         {
             _layout = GroupLayoutType.parse(str);
-            str = xml.att.lineGap;
+            str = xml.AttrAccess("lineGap");
             if (str != null)
                 _lineGap = Std.parseInt(str);
-            str = xml.att.colGap;
+            str = xml.AttrAccess("colGap");
             if (str != null)
                 _columnGap = Std.parseInt(str);
         }

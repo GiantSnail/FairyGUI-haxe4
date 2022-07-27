@@ -291,14 +291,14 @@ class Controller extends EventDispatcher
 
     public function setup(xml:FastXML):Void
     {
-        _name = xml.att.name;
-        _autoRadioGroupDepth = xml.att.autoRadioGroupDepth == "true";
+        _name = xml.AttrAccess("name");
+        _autoRadioGroupDepth = xml.AttrAccess("autoRadioGroupDepth") == "true";
 
         var i:Int;
         var k:Int;
         var cnt:Int;
         var arr:Array<String>;
-        var str:String = xml.att.pages;
+        var str:String = xml.AttrAccess("pages");
         if (str != null)
         {
             arr = str.split(",");
@@ -312,20 +312,20 @@ class Controller extends EventDispatcher
             }
         }
 
-        var col:FastXMLList = xml.nodes.action;
+        var col:FastXMLList = xml.NodeListAccess("action");
         if (col.length() > 0)
         {
             _actions = new Vector<ControllerAction>();
 
             for (cxml in col.iterator())
             {
-                var action:ControllerAction = ControllerAction.createAction(cxml.att.type);
+                var action:ControllerAction = ControllerAction.createAction(cxml.AttrAccess("type"));
                 action.setup(cxml);
                 _actions.push(action);
             }
         }
 
-        str = xml.att.transitions;
+        str = xml.AttrAccess("transitions");
         if (str != null)
         {
             if (_actions == null)

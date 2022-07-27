@@ -93,11 +93,11 @@ class AsyncOperation
                 var col:FastXMLList = di.desc.item;
                 for (cxml in col)
                 {
-                    var url:String = cxml.att.url;
+                    var url:String = cxml.AttrAccess("url");
                     if (url == null)
                     {
                         if (defaultItem == null)
-                            defaultItem = di.desc.att.defaultItem;
+                            defaultItem = di.desc.AttrAccess("defaultItem");
                         url = defaultItem;
                         if (url == null)
                             continue;

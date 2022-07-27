@@ -201,7 +201,7 @@ class PopupMenu
     public function show(target:GObject = null, downward:Dynamic = null, parentMenu:PopupMenu = null):Void
     {
         var r:GRoot = (target != null) ? target.root : GRoot.inst;
-        r.showPopup(this.contentPane, Std.is(target, GRoot) ? null : target, downward);
+        r.showPopup(this.contentPane, Std.isOfType(target, GRoot) ? null : target, downward);
         _parentMenu = parentMenu;
     }
 
@@ -216,7 +216,7 @@ class PopupMenu
         _expandingItem = item;
 
         var popup:PopupMenu = cast(item.data, PopupMenu);
-        if (Std.is(item, GButton))
+        if (Std.isOfType(item, GButton))
             cast(item, GButton).selected = true;
         popup.show(item, null, this);
 
@@ -226,7 +226,7 @@ class PopupMenu
 
     private function closeSecondLevelMenu():Void
     {
-        if (Std.is(_expandingItem, GButton))
+        if (Std.isOfType(_expandingItem, GButton))
             cast(_expandingItem, GButton).selected = false;
         var popup:PopupMenu = cast(_expandingItem.data, PopupMenu);
         _expandingItem = null;
@@ -261,7 +261,7 @@ class PopupMenu
             hide();
         }
 
-        if ((item.data != null) && !Std.is(item.data, PopupMenu))
+        if ((item.data != null) && !Std.isOfType(item.data, PopupMenu))
         {
             if (item.data.length == 1)
                 item.data(evt);
@@ -287,7 +287,7 @@ class PopupMenu
     private function __rollOver(evt:MouseEvent):Void
     {
         var item:GObject = cast(evt.currentTarget, GObject);
-        if (Std.is(item.data, PopupMenu) || _expandingItem != null)
+        if (Std.isOfType(item.data, PopupMenu) || _expandingItem != null)
             GTimers.inst.callDelay(100, __showSubMenu, item);
     }
 

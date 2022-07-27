@@ -74,11 +74,11 @@ class GComboBox extends GComponent
 
     @:final private function get_titleColor():Int
     {
-        if (Std.is(_titleObject, GTextField))
+        if (Std.isOfType(_titleObject, GTextField))
             return cast(_titleObject, GTextField).color;
-        else if (Std.is(_titleObject, GLabel))
+        else if (Std.isOfType(_titleObject, GLabel))
             return cast(_titleObject, GLabel).titleColor;
-        else if (Std.is(_titleObject, GButton))
+        else if (Std.isOfType(_titleObject, GButton))
             return cast(_titleObject, GButton).titleColor;
         else
             return 0;
@@ -86,11 +86,11 @@ class GComboBox extends GComponent
 
     private function set_titleColor(value:Int):Int
     {
-        if (Std.is(_titleObject, GTextField))
+        if (Std.isOfType(_titleObject, GTextField))
             cast(_titleObject, GTextField).color = value;
-        else if (Std.is(_titleObject, GLabel))
+        else if (Std.isOfType(_titleObject, GLabel))
             cast(_titleObject, GLabel).titleColor = value;
-        else if (Std.is(_titleObject, GButton))
+        else if (Std.isOfType(_titleObject, GButton))
             cast(_titleObject, GButton).titleColor = value;
         return value;
     }
@@ -308,7 +308,7 @@ class GComboBox extends GComponent
     {
         super.constructFromXML(xml);
 
-        xml = xml.nodes.ComboBox.get(0);
+        xml = xml.NodeListAccess("ComboBox").get(0);
 
         var str:String;
 
@@ -316,7 +316,7 @@ class GComboBox extends GComponent
         _titleObject = getChild("title");
         _iconObject = getChild("icon");
 
-        str = xml.att.dropdown;
+        str = xml.AttrAccess("dropdown");
         if (str != null)
         {
             dropdown = try cast(UIPackage.createObjectFromURL(str), GComponent)
@@ -360,24 +360,24 @@ class GComboBox extends GComponent
     {
         super.setup_afterAdd(xml);
 
-        xml = xml.nodes.ComboBox.get(0);
+        xml = xml.NodeListAccess("ComboBox").get(0);
         if (xml != null)
         {
             var str:String;
-            str = xml.att.titleColor;
+            str = xml.AttrAccess("titleColor");
             if (str != null)
                 this.titleColor = ToolSet.convertFromHtmlColor(str);
-            str = xml.att.visibleItemCount;
+            str = xml.AttrAccess("visibleItemCount");
             if (str != null)
                 _visibleItemCount = Std.parseInt(str);
 
-            var col:FastXMLList = xml.nodes.item;
+            var col:FastXMLList = xml.NodeListAccess("item");
             var i:Int = 0;
             for (cxml in col.iterator())
             {
-                _items.push(Std.string(cxml.att.title));
-                _values.push(Std.string(cxml.att.value));
-                str = cxml.att.icon;
+                _items.push(Std.string(cxml.AttrAccess("title")));
+                _values.push(Std.string(cxml.AttrAccess("value")));
+                str = cxml.AttrAccess("icon");
                 if (str != null)
                 {
                     if (_icons == null)
@@ -387,7 +387,7 @@ class GComboBox extends GComponent
                 i++;
             }
 
-            str = xml.att.title;
+            str = xml.AttrAccess("title");
             if (str != null)
             {
                 this.text = str;
@@ -401,11 +401,11 @@ class GComboBox extends GComponent
             else
                 _selectedIndex = -1;
 
-            str = xml.att.icon;
+            str = xml.AttrAccess("icon");
             if (str != null)
                 this.icon = str;
 
-            str = xml.att.direction;
+            str = xml.AttrAccess("direction");
             if (str != null)
             {
                 if (str == "up")
@@ -414,7 +414,7 @@ class GComboBox extends GComponent
                     _popupDownward = true;
             }
 
-            str = xml.att.selectionController;
+            str = xml.AttrAccess("selectionController");
             if (str != null)
                 _selectionController = parent.getController(str);
         }
@@ -452,7 +452,7 @@ class GComboBox extends GComponent
 
     private function __clickItem(evt:ItemEvent):Void
     {
-        if (Std.is(dropdown.parent, GRoot))
+        if (Std.isOfType(dropdown.parent, GRoot))
             cast((dropdown.parent), GRoot).hidePopup(dropdown);
         _selectedIndex = CompatUtil.INT_MIN_VALUE;
         this.selectedIndex = _list.getChildIndex(evt.itemObject);
@@ -479,7 +479,7 @@ class GComboBox extends GComponent
 
     private function __mousedown(evt:GTouchEvent):Void
     {
-        if (Std.is(evt.realTarget, TextField) && cast(evt.realTarget, TextField).type == TextFieldType.INPUT)
+        if (Std.isOfType(evt.realTarget, TextField) && cast(evt.realTarget, TextField).type == TextFieldType.INPUT)
             return;
 
         if (dropdown != null)

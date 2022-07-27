@@ -845,7 +845,7 @@ class Transition
                 var cf:ColorMatrixFilter;
                 var arr:Array<Dynamic> = item.target.filters;
 
-                if (arr == null || !(Std.is(arr[0], ColorMatrixFilter)))
+                if (arr == null || !(Std.isOfType(arr[0], ColorMatrixFilter)))
                 {
                     cf = new ColorMatrixFilter();
                     arr = [cf];
@@ -900,31 +900,31 @@ class Transition
 
     public function setup(xml:FastXML):Void
     {
-        this.name = xml.att.name;
-        var str:String = xml.att.options;
+        this.name = xml.AttrAccess("name");
+        var str:String = xml.AttrAccess("options");
         if (str != null)
             _options = Std.parseInt(str);
-        this._autoPlay = xml.att.autoPlay == "true";
+        this._autoPlay = xml.AttrAccess("autoPlay") == "true";
         if (this._autoPlay)
         {
-            str = xml.att.autoPlayRepeat;
+            str = xml.AttrAccess("autoPlayRepeat");
             if (str != null)
                 this.autoPlayRepeat = Std.parseInt(str);
-            str = xml.att.autoPlayDelay;
+            str = xml.AttrAccess("autoPlayDelay");
             if (str != null)
                 this.autoPlayDelay = Std.parseFloat(str);
         }
 
 
-        var col:FastXMLList = xml.nodes.item;
+        var col:FastXMLList = xml.NodeListAccess("item");
         for (cxml in col.iterator())
         {
             var item:TransitionItem = new TransitionItem();
             _items.push(item);
 
-            item.time = Std.parseInt(cxml.att.time) / FRAME_RATE;
-            item.targetId = cxml.att.target;
-            str = cxml.att.type;
+            item.time = Std.parseInt(cxml.AttrAccess("time")) / FRAME_RATE;
+            item.targetId = cxml.AttrAccess("target");
+            str = cxml.AttrAccess("type");
             switch (str)
             {
                 case "XY":
@@ -958,18 +958,18 @@ class Transition
                 default:
                     item.type = TransitionActionType.Unknown;
             }
-            item.tween = cxml.att.tween == "true";
-            item.label = cxml.att.label;
+            item.tween = cxml.AttrAccess("tween") == "true";
+            item.label = cxml.AttrAccess("label");
             if (item.label == null || item.label.length == 0)
                 item.label = null;
 
             if (item.tween)
             {
-                item.duration = Std.parseInt(cxml.att.duration) / FRAME_RATE;
+                item.duration = Std.parseInt(cxml.AttrAccess("duration")) / FRAME_RATE;
                 if (item.time + item.duration > _maxTime)
                     _maxTime = item.time + item.duration;
 
-                str = cxml.att.ease;
+                str = cxml.AttrAccess("ease");
                 if (str != null)
                 {
                     var pos:Int = str.indexOf(".");
@@ -981,29 +981,29 @@ class Transition
                         item.easeType = EaseLookup.find(str);
                 }
 
-                item.repeat = Std.parseInt(cxml.att.repeat);
-                item.yoyo = cxml.att.yoyo == "true";
-                item.label2 = cxml.att.label2;
+                item.repeat = Std.parseInt(cxml.AttrAccess("repeat"));
+                item.yoyo = cxml.AttrAccess("yoyo") == "true";
+                item.label2 = cxml.AttrAccess("label2");
                 if (item.label2 == null || item.label2.length == 0)
                     item.label2 = null;
 
-                var v:String = cxml.att.endValue;
+                var v:String = cxml.AttrAccess("endValue");
                 if (v != null)
                 {
-                    decodeValue(item.type, cxml.att.startValue, item.startValue);
+                    decodeValue(item.type, cxml.AttrAccess("startValue"), item.startValue);
                     decodeValue(item.type, v, item.endValue);
                 }
                 else
                 {
                     item.tween = false;
-                    decodeValue(item.type, cxml.att.startValue, item.value);
+                    decodeValue(item.type, cxml.AttrAccess("startValue"), item.value);
                 }
             }
             else
             {
                 if (item.time > _maxTime)
                     _maxTime = item.time;
-                decodeValue(item.type, cxml.att.value, item.value);
+                decodeValue(item.type, cxml.AttrAccess("value"), item.value);
             }
         }
     }

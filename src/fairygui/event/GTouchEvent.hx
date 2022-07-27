@@ -39,7 +39,7 @@ class GTouchEvent extends Event
     
     public function copyFrom(evt : Event, clickCount : Int = 1) : Void
     {
-        if (Std.is(evt, MouseEvent)) 
+        if (Std.isOfType(evt, MouseEvent)) 
         {
             _stageX = cast(evt, MouseEvent).stageX;
             _stageY = cast(evt, MouseEvent).stageY;

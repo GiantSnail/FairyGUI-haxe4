@@ -173,18 +173,18 @@ class GTextInput extends GTextField
         super.setup_beforeAdd(xml);
 
         var str : String;
-        str = xml.att.prompt;
+        str = xml.AttrAccess("prompt");
         if (str != null)
             _promptText = str;
 
-        str = xml.att.maxLength;
+        str = xml.AttrAccess("maxLength");
         if (str != null)
             _textField.maxChars = Std.parseInt(str);
 
-        str = xml.att.restrict;
+        str = xml.AttrAccess("restrict");
         if (str != null) 
             _textField.restrict = str;
-        _password = xml.att.password == "true";
+        _password = xml.AttrAccess("password") == "true";
     }
     
     override public function setup_afterAdd(xml : FastXML) : Void

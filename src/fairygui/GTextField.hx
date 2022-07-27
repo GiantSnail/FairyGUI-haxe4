@@ -906,39 +906,39 @@ class GTextField extends GObject implements ITextColorGear
         var str:String;
         var arr:Array<Dynamic>;
 
-        str = xml.att.font;
+        str = xml.AttrAccess("font");
         if (str != null)
             _font = str;
 
-        str = xml.att.fontSize;
+        str = xml.AttrAccess("fontSize");
         if (str != null)
             _fontSize = Std.parseInt(str);
 
-        str = xml.att.color;
+        str = xml.AttrAccess("color");
         if (str != null)
             _color = ToolSet.convertFromHtmlColor(str);
 
-        str = xml.att.align;
+        str = xml.AttrAccess("align");
         if (str != null)
             _align = AlignType.parse(str);
 
-        str = xml.att.vAlign;
+        str = xml.AttrAccess("vAlign");
         if (str != null)
             _verticalAlign = VertAlignType.parse(str);
 
-        str = xml.att.leading;
+        str = xml.AttrAccess("leading");
         if (str != null)
             _leading = Std.parseInt(str);
         else
             _leading = 3;
 
-        str = xml.att.letterSpacing;
+        str = xml.AttrAccess("letterSpacing");
         if (str != null)
             _letterSpacing = Std.parseInt(str);
 
-        _ubbEnabled = xml.att.ubb == "true";
+        _ubbEnabled = xml.AttrAccess("ubb") == "true";
 
-        str = xml.att.autoSize;
+        str = xml.AttrAccess("autoSize");
         if (str != null)
         {
             _autoSize = AutoSizeType.parse(str);
@@ -947,27 +947,27 @@ class GTextField extends GObject implements ITextColorGear
             updateAutoSize();
         }
 
-        _underline = xml.att.underline == "true";
-        _italic = xml.att.italic == "true";
-        _bold = xml.att.bold == "true";
-        this.singleLine = xml.att.singleLine == "true";
-        str = xml.att.strokeColor;
+        _underline = xml.AttrAccess("underline") == "true";
+        _italic = xml.AttrAccess("italic") == "true";
+        _bold = xml.AttrAccess("bold") == "true";
+        this.singleLine = xml.AttrAccess("singleLine") == "true";
+        str = xml.AttrAccess("strokeColor");
         if (str != null)
         {
             _strokeColor = ToolSet.convertFromHtmlColor(str);
-            str = xml.att.strokeSize;
+            str = xml.AttrAccess("strokeSize");
             if (str != null)
                 _stroke = Std.parseInt(str);
             else
                 _stroke = 1;
         }
 
-        str = xml.att.shadowColor;
+        str = xml.AttrAccess("shadowColor");
         if (str != null)
         {
             if (_stroke <= 0)
                 _strokeColor = ToolSet.convertFromHtmlColor(str);
-            str = xml.att.shadowOffset;
+            str = xml.AttrAccess("shadowOffset");
             if (str != null)
             {
                 arr = str.split(",");
@@ -985,7 +985,7 @@ class GTextField extends GObject implements ITextColorGear
 
         updateTextFormat();
 
-        var str:String = xml.att.text;
+        var str:String = xml.AttrAccess("text");
         if (str != null)
             this.text = str;
 

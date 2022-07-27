@@ -141,14 +141,14 @@ class GSlider extends GComponent
     {
         super.constructFromXML(xml);
 
-        xml = xml.nodes.Slider.get(0);
+        xml = xml.NodeListAccess("Slider").get(0);
 
         var str:String;
-        str = xml.att.titleType;
+        str = xml.AttrAccess("titleType");
         if (str != null)
             _titleType = ProgressTitleType.parse(str);
 
-        _reverse = xml.att.reverse == "true";
+        _reverse = xml.AttrAccess("reverse") == "true";
 
         _titleObject = try cast(getChild("title"), GTextField)
         catch (e:Dynamic) null;
@@ -193,11 +193,11 @@ class GSlider extends GComponent
     {
         super.setup_afterAdd(xml);
 
-        xml = xml.nodes.Slider.get(0);
+        xml = xml.NodeListAccess("Slider").get(0);
         if (xml != null)
         {
-            _value = Std.parseInt(xml.att.value);
-            _max = Std.parseInt(xml.att.max);
+            _value = Std.parseInt(xml.AttrAccess("value"));
+            _max = Std.parseInt(xml.AttrAccess("max"));
         }
 
         update();

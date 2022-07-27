@@ -112,7 +112,7 @@ class GLabel extends GComponent implements IColorGear
     private function set_editable(val : Bool) : Bool
     {
         var tf:GTextField = getTextField();
-        if(tf!=null && Std.is(tf,GTextInput))
+        if(tf!=null && Std.isOfType(tf,GTextInput))
             tf.asTextInput.editable = val;
         return val;
     }
@@ -120,7 +120,7 @@ class GLabel extends GComponent implements IColorGear
     private function get_editable() : Bool
     {
         var tf:GTextField = getTextField();
-        if(tf!=null && Std.is(tf, GTextInput))
+        if(tf!=null && Std.isOfType(tf, GTextInput))
             return tf.asTextInput.editable;
         else 
             return false;
@@ -128,11 +128,11 @@ class GLabel extends GComponent implements IColorGear
 
     public function getTextField():GTextField
     {
-        if (Std.is(_titleObject, GTextField))
+        if (Std.isOfType(_titleObject, GTextField))
             return cast(_titleObject, GTextField);
-        else if(Std.is(_titleObject, GLabel))
+        else if(Std.isOfType(_titleObject, GLabel))
             return cast(_titleObject, GLabel).getTextField();
-        else if(Std.is(_titleObject, GButton))
+        else if(Std.isOfType(_titleObject, GButton))
             return cast(_titleObject, GButton).getTextField();
         else
             return null;
@@ -150,36 +150,36 @@ class GLabel extends GComponent implements IColorGear
     {
         super.setup_afterAdd(xml);
         
-        xml = xml.nodes.Label.get(0);
+        xml = xml.NodeListAccess("Label").get(0);
         if (xml != null) 
         {
             var str : String;
-            str = xml.att.title;
+            str = xml.AttrAccess("title");
             if (str != null) 
                 this.text = str;
-            str = xml.att.icon;
+            str = xml.AttrAccess("icon");
             if (str != null) 
                 this.icon = str;
-            str = xml.att.titleColor;
+            str = xml.AttrAccess("titleColor");
             if (str != null) 
                 this.titleColor = ToolSet.convertFromHtmlColor(str);
-            str = xml.att.titleFontSize;
+            str = xml.AttrAccess("titleFontSize");
             if(str != null)
                 this.titleFontSize = Std.parseInt(str);
 
             var tf:GTextField = getTextField();
-            if (Std.is(tf, GTextInput))
+            if (Std.isOfType(tf, GTextInput))
             {
-                str = xml.att.prompt;
+                str = xml.AttrAccess("prompt");
                 if (str != null) 
                     cast(tf, GTextInput).promptText = str;
-                str = xml.att.maxLength;
+                str = xml.AttrAccess("maxLength");
                 if (str != null) 
                     cast(tf, GTextInput).maxLength = Std.parseInt(str);
-                str = xml.att.restrict;
+                str = xml.AttrAccess("restrict");
                 if (str != null) 
                     cast(tf, GTextInput).restrict = str;
-                str = xml.att.password;
+                str = xml.AttrAccess("password");
                 if (str != null) 
                     cast(tf, GTextInput).password = str == "true";
             }

@@ -95,7 +95,7 @@ class GearBase
 
     public function setup(xml:FastXML):Void
     {
-        _controller = _owner.parent.getController(xml.att.controller);
+        _controller = _owner.parent.getController(xml.AttrAccess("controller"));
         if (_controller == null)
             return;
 
@@ -103,11 +103,11 @@ class GearBase
 
         var str:String;
 
-        str = xml.att.tween;
+        str = xml.AttrAccess("tween");
         if (str != null)
             _tween = true;
 
-        str = xml.att.ease;
+        str = xml.AttrAccess("ease");
         if (str != null)
         {
             var pos:Int = str.indexOf(".");
@@ -119,17 +119,17 @@ class GearBase
                 _easeType = EaseLookup.find(str);
         }
 
-        str = xml.att.duration;
+        str = xml.AttrAccess("duration");
         if (str != null)
             _tweenTime = Std.parseFloat(str);
 
-        str = xml.att.delay;
+        str = xml.AttrAccess("delay");
         if (str != null)
             _delay = Std.parseFloat(str);
 
-        if (Std.is(this, GearDisplay))
+        if (Std.isOfType(this, GearDisplay))
         {
-            str = xml.att.pages;
+            str = xml.AttrAccess("pages");
             if (str != null)
             {
                 var arr:Array<String> = str.split(",");
@@ -141,13 +141,13 @@ class GearBase
             var pages:Array<String> = null;
             var values:Array<String> = null;
 
-            str = xml.att.pages;
+            str = xml.AttrAccess("pages");
             if (str != null)
                 pages = str.split(",");
 
             if (pages != null)
             {
-                str = xml.att.values;
+                str = xml.AttrAccess("values");
                 values = str.split("|");
 
                 for (i in 0...pages.length)
@@ -159,7 +159,7 @@ class GearBase
                 }
             }
 
-            str = xml.att.resolve("default");
+            str = xml.AttrAccess("default");
             if (str != null)
                 addStatus(null, str);
         }

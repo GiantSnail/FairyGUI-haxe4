@@ -493,7 +493,7 @@ class GComponent extends GObject
         var g:GObject;
         var i:Int;
 
-        if (Std.is(child, GGroup))
+        if (Std.isOfType(child, GGroup))
         {
             for (i in 0...cnt)
             {
@@ -649,7 +649,7 @@ class GComponent extends GObject
             {
                 myIndex = i;
             }
-            else if (Std.is(child, GButton)
+            else if (Std.isOfType(child, GButton)
                      && cast(child, GButton).relatedController == c)
             {
                 if (i > maxIndex)
@@ -1196,7 +1196,7 @@ class GComponent extends GObject
 
         _underConstruct = true;
 
-        str = xml.att.size;
+        str = xml.AttrAccess("size");
         arr = str.split(",");
         sourceWidth = Std.parseInt(arr[0]);
         sourceHeight = Std.parseInt(arr[1]);
@@ -1205,15 +1205,15 @@ class GComponent extends GObject
 
         setSize(sourceWidth, sourceHeight);
 
-        str = xml.att.pivot;
+        str = xml.AttrAccess("pivot");
         if (str != null)
         {
             arr = str.split(",");
-            str = xml.att.anchor;
+            str = xml.AttrAccess("anchor");
             internalSetPivot(Std.parseFloat(arr[0]), Std.parseFloat(arr[1]), str == "true");
         }
 
-        str = xml.att.restrictSize;
+        str = xml.AttrAccess("restrictSize");
         if (str != null)
         {
             arr = str.split(",");
@@ -1223,46 +1223,46 @@ class GComponent extends GObject
             maxHeight = Std.parseInt(arr[3]);
         }
 
-        str = xml.att.opaque;
+        str = xml.AttrAccess("opaque");
         if (str != "false")
             this.opaque = true;
 
         var overflow:Int;
-        str = xml.att.overflow;
+        str = xml.AttrAccess("overflow");
         if (str != null)
             overflow = OverflowType.parse(str);
         else
             overflow = OverflowType.Visible;
 
-        str = xml.att.margin;
+        str = xml.AttrAccess("margin");
         if (str != null && str != "")
             _margin.parse(str);
 
         if (overflow == OverflowType.Scroll)
         {
             var scroll:Int = ScrollType.Both;
-            str = xml.att.scroll;
+            str = xml.AttrAccess("scroll");
             if (str != null)
                 scroll = ScrollType.parse(str);
             else
                 scroll = ScrollType.Vertical;
 
             var scrollBarDisplay:Int = ScrollBarDisplayType.Default;
-            str = xml.att.scrollBar;
+            str = xml.AttrAccess("scrollBar");
             if (str != null)
                 scrollBarDisplay = ScrollBarDisplayType.parse(str);
             else
                 scrollBarDisplay = ScrollBarDisplayType.Default;
-            var scrollBarFlags:Int = Std.parseInt(xml.att.scrollBarFlags);
+            var scrollBarFlags:Int = Std.parseInt(xml.AttrAccess("scrollBarFlags"));
 
             var scrollBarMargin:Margin = new Margin();
-            str = xml.att.scrollBarMargin;
+            str = xml.AttrAccess("scrollBarMargin");
             if (str != null)
                 scrollBarMargin.parse(str);
 
             var vtScrollBarRes:String = null;
             var hzScrollBarRes:String = null;
-            str = xml.att.scrollBarRes;
+            str = xml.AttrAccess("scrollBarRes");
             if (str != null)
             {
                 arr = str.split(",");
@@ -1277,7 +1277,7 @@ class GComponent extends GObject
             setupOverflow(overflow);
 
         _buildingDisplayList = true;
-        var col:FastXMLList = xml.nodes.controller;
+        var col:FastXMLList = xml.NodeListAccess("controller");
 
         var controller:Controller;
         for (cxml in col.iterator())
@@ -1328,11 +1328,11 @@ class GComponent extends GObject
             child._underConstruct = false;
         }
 
-        str = xml.att.mask;
+        str = xml.AttrAccess("mask");
         if (str != null)
             this.mask = getChildById(str).displayObject;
 
-        col = xml.nodes.transition;
+        col = xml.NodeListAccess("transition");
         var trans:Transition;
         for (cxml in col.iterator())
         {
@@ -1370,12 +1370,12 @@ class GComponent extends GObject
 
         if (scrollPane != null)
         {
-            str = xml.att.pageController;
+            str = xml.AttrAccess("pageController");
             if (str != null)
                 scrollPane.pageController = parent.getController(str);
         }
 
-        str = xml.att.controller;
+        str = xml.AttrAccess("controller");
         if (str != null)
         {
             var arr:Array<String> = str.split(",");

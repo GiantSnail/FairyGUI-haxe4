@@ -47,11 +47,11 @@ class ControllerAction
     {
         var str:String;
 
-        str = xml.att.fromPage;
+        str = xml.AttrAccess("fromPage");
         if (str != null)
             fromPage = str.split(",");
 
-        str = xml.att.toPage;
+        str = xml.AttrAccess("toPage");
         if (str != null)
             toPage = str.split(",");
     }
